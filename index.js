@@ -1,6 +1,4 @@
 const debug = require('@ff0000-ad-tech/debug')
-const { exists } = require('fs-extra')
-
 const log = debug('index-variation-resolve-plugin')
 
 class IndexVariationResolvePlugin {
