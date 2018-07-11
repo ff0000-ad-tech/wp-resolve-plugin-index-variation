@@ -14,8 +14,13 @@
     "enhanced-resolve": "^4.1.0"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.5",
     "enhanced-resolve": "^4.1.0",
-    "jest": "^23.4.0"
+    "eslint": "^5.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "jest": "^23.4.0",
+    "prettier": "^1.13.7"
   },
   "dependencies": {
     "@ff0000-ad-tech/debug": "^4.0.2"
