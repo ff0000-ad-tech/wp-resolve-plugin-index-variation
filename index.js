@@ -1,27 +1,27 @@
 const debug = require('@ff0000-ad-tech/debug')
-const log = debug('index-variation-resolve-plugin')
+const { exists } = require('fs-extra')
 
-const name = 'IndexVariationResolvePlugin'
+const log = debug('index-variation-resolve-plugin')
 
 class IndexVariationResolvePlugin {
 	constructor(indexName) {
 		this.indexName = indexName
+		this.pathExistsCache = {}
 	}
 
-	// TODO: use fallback
 	apply(resolver) {
-		resolver
-			.getHook('described-resolve')
-			.tapAsync(name, (request, resolveContext, callback) => {
-				const innerRequest = request.request
-				if (!innerRequest || !innerRequest.includes('@index')) return callback()
+		resolver.getHook('parsed-resolve').tapAsync('IndexVariationResolvePlugin', (request, resolveContext, callback) => {
+			const innerRequest = request.request
+			if (!innerRequest || !innerRequest.includes('@index')) return callback()
 
-				const target = resolver.getHook('parsed-resolve')
-				const newRequestStr = innerRequest.replace('@index', this.indexName)
+			const target = resolver.getHook('described-resolve')
 
+			function tryIndexAlias({ aliasReplacement, aliasFailArgs }) {
+				const newRequestStr = innerRequest.replace('@index', aliasReplacement)
 				const newRequestObj = Object.assign({}, request, {
 					request: newRequestStr
 				})
+
 				resolver.doResolve(
 					target,
 					newRequestObj,
@@ -30,11 +30,26 @@ class IndexVariationResolvePlugin {
 					(err, result) => {
 						if (err) return callback(err)
 
-						if (result === undefined) return callback(null, null)
-						callback(null, result)
+						if (result === undefined) {
+							if (aliasFailArgs) {
+								log('No index-specific folder. Falling back on top-level directory...')
+								return tryIndexAlias(aliasFailArgs)
+							}
+							return callback(null, null)
+						}
+
+						return callback(null, result)
 					}
 				)
+			}
+
+			tryIndexAlias({
+				aliasReplacement: this.indexName,
+				aliasFailArgs: {
+					aliasReplacement: ''
+				}
 			})
+		})
 	}
 }
 

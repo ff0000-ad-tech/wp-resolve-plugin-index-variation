@@ -2,11 +2,7 @@ const ResolverFactory = require('enhanced-resolve').ResolverFactory
 const plugin = require('./index.js')
 const path = require('path')
 
-const getResolveAndCheck = (indexName, resolverCreator) => (
-	pathToResolve,
-	expectedPath,
-	options
-) => {
+const getResolveAndCheck = (indexName, resolverCreator) => (pathToResolve, expectedPath, options) => {
 	return done => {
 		const resolver =
 			(resolverCreator && resolverCreator(indexName)) ||
@@ -24,6 +20,34 @@ const getResolveAndCheck = (indexName, resolverCreator) => (
 	}
 }
 
+describe('Project with multiple indices', () => {
+	const coolResolveAndCheck = getResolveAndCheck('cool_index')
+
+	it('handles normal requests', coolResolveAndCheck('./__mocks__/cool_index/file.js', './__mocks__/cool_index/file.js'))
+
+	it(
+		'handles .js requests without extensions',
+		coolResolveAndCheck('./__mocks__/@index/file', './__mocks__/cool_index/file.js')
+	)
+
+	it(
+		'handles requests with /..',
+		coolResolveAndCheck('./__mocks__/cool_index/../cool_index/file.js', './__mocks__/cool_index/file.js')
+	)
+
+	it(
+		'@index/file.js should match to cool_index/file.js',
+		coolResolveAndCheck('./__mocks__/@index/file.js', './__mocks__/cool_index/file.js')
+	)
+})
+
+describe("When index folder doesn't exist", () => {
+	it(
+		"should fall back if index folder doesn't exist",
+		getResolveAndCheck('nonexistent')('./__mocks__/@index/file.js', './__mocks__/file.js')
+	)
+})
+
 describe('Using regular Webpack aliases', () => {
 	const resolverCreator = indexName =>
 		ResolverFactory.createResolver({
@@ -34,38 +58,14 @@ describe('Using regular Webpack aliases', () => {
 			}
 		})
 
+	const resolveAndCheck = getResolveAndCheck('cool_index', resolverCreator)
+	it(
+		'handles requests with /.. and regular aliases',
+		resolveAndCheck('@mocks/cool_index/../cool_index/file.js', './__mocks__/cool_index/file.js')
+	)
+
 	it(
 		'handles requests with regular aliases normally',
-		getResolveAndCheck('cool_index', resolverCreator)(
-			'@mocks/@index/file.js',
-			'./__mocks__/cool_index/file.js'
-		)
-	)
-})
-
-describe('Project with multiple indices', () => {
-	const coolResolveAndCheck = getResolveAndCheck('cool_index')
-	it(
-		'handles normal requests',
-		coolResolveAndCheck(
-			'./__mocks__/cool_index/file.js',
-			'./__mocks__/cool_index/file.js'
-		)
-	)
-
-	it(
-		'@index/file.js should match to cool_index/file.js',
-		coolResolveAndCheck(
-			'./__mocks__/@index/file.js',
-			'./__mocks__/cool_index/file.js'
-		)
-	)
-
-	it(
-		'@index/file.js should match to cool_index/file.js',
-		getResolveAndCheck('nonexistent')(
-			'./__mocks__/@index/file.js',
-			'./__mocks__/file.js'
-		)
+		resolveAndCheck('@mocks/@index/file.js', './__mocks__/cool_index/file.js')
 	)
 })
