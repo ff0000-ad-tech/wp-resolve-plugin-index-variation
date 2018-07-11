@@ -13,7 +13,7 @@ class IndexVariationResolvePlugin {
 
 			const target = resolver.getHook('described-resolve')
 
-			function tryIndexAlias({ aliasReplacement, aliasFailArgs, lastReplacement = false }) {
+			function tryIndexAlias(aliasReplacement, lastReplacement = false) {
 				const newRequestStr = innerRequest.replace('@index', aliasReplacement)
 				const newRequestObj = Object.assign({}, request, {
 					request: newRequestStr
@@ -34,7 +34,7 @@ class IndexVariationResolvePlugin {
 								log(`No index-specific folder at ${newRequestStr}`)
 								log(`Falling back on ${topLevelRequestStr}...`)
 								log('')
-								return tryIndexAlias(aliasFailArgs)
+								return tryIndexAlias('', true)
 							}
 							return callback(null, null)
 						}
@@ -44,12 +44,7 @@ class IndexVariationResolvePlugin {
 				)
 			}
 
-			tryIndexAlias({
-				aliasReplacement: this.indexName,
-				aliasFailArgs: {
-					aliasReplacement: ''
-				}
-			})
+			tryIndexAlias(this.indexName)
 		})
 	}
 }
