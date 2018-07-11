@@ -10,27 +10,31 @@ class IndexVariationResolvePlugin {
 
 	// TODO: use fallback
 	apply(resolver) {
-		resolver.getHook('resolve').tapAsync(name, (request, resolveContext, callback) => {
-			const innerRequest = request.request
-			if (!innerRequest || !innerRequest.includes('@index')) return callback()
+		resolver
+			.getHook('described-resolve')
+			.tapAsync(name, (request, resolveContext, callback) => {
+				const innerRequest = request.request
+				if (!innerRequest || !innerRequest.includes('@index')) return callback()
 
-			const target = resolver.getHook('described-resolve')
-			const newRequestStr = innerRequest.replace('@index', this.indexName)
+				const target = resolver.getHook('parsed-resolve')
+				const newRequestStr = innerRequest.replace('@index', this.indexName)
 
-			const newRequestObj = Object.assign({}, request, { request: newRequestStr })
-			resolver.doResolve(
-				target,
-				newRequestObj,
-				`Using @index alias to change ${innerRequest} to ${newRequestStr}`,
-				resolveContext,
-				(err, result) => {
-					if (err) return callback(err)
+				const newRequestObj = Object.assign({}, request, {
+					request: newRequestStr
+				})
+				resolver.doResolve(
+					target,
+					newRequestObj,
+					`Using @index alias to change ${innerRequest} to ${newRequestStr}`,
+					resolveContext,
+					(err, result) => {
+						if (err) return callback(err)
 
-					if (result === undefined) return callback(null, null)
-					callback(null, result)
-				}
-			)
-		})
+						if (result === undefined) return callback(null, null)
+						callback(null, result)
+					}
+				)
+			})
 	}
 }
 
