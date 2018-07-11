@@ -6,7 +6,6 @@ const log = debug('index-variation-resolve-plugin')
 class IndexVariationResolvePlugin {
 	constructor(indexName) {
 		this.indexName = indexName
-		this.pathExistsCache = {}
 	}
 
 	apply(resolver) {
