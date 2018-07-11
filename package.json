@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "webpack": ">=4.0.0"
+    "webpack": ">=4.0.0",
+    "enhanced-resolve": "^4.1.0"
   },
   "devDependencies": {
     "enhanced-resolve": "^4.1.0",
