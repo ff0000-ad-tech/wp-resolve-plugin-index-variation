@@ -1,28 +1,28 @@
 {
-  "name": "index-variation-resolve-plugin",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "peerDependencies": {
-    "webpack": ">=4.0.0",
-    "enhanced-resolve": "^4.1.0"
-  },
-  "devDependencies": {
-    "babel-eslint": "^8.2.5",
-    "enhanced-resolve": "^4.1.0",
-    "eslint": "^5.1.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-prettier": "^2.6.2",
-    "jest": "^23.4.0",
-    "prettier": "^1.13.7"
-  },
-  "dependencies": {
-    "@ff0000-ad-tech/debug": "^4.0.2"
-  }
+	"name": "index-variation-resolve-plugin",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "jest"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"peerDependencies": {
+		"webpack": ">=4.0.0",
+		"enhanced-resolve": "^4.1.0"
+	},
+	"devDependencies": {
+		"babel-eslint": "^8.2.5",
+		"enhanced-resolve": "^4.1.0",
+		"eslint": "^5.1.0",
+		"eslint-config-prettier": "^2.9.0",
+		"eslint-plugin-prettier": "^2.6.2",
+		"jest": "^23.4.0",
+		"prettier": "^1.13.7"
+	},
+	"dependencies": {
+		"@ff0000-ad-tech/debug": "^4.0.2"
+	}
 }
