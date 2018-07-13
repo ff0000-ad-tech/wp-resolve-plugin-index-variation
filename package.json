@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test": "jest"
+		"test": "jest",
+    "pub": "np"
 	},
 	"keywords": [],
 	"author": "",
@@ -20,6 +21,7 @@
 		"eslint-config-prettier": "^2.9.0",
 		"eslint-plugin-prettier": "^2.6.2",
 		"jest": "^23.4.0",
+		"np": "^3.0.4",
 		"prettier": "^1.13.7"
 	},
 	"dependencies": {
