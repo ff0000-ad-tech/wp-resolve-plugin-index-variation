@@ -1,6 +1,6 @@
 {
 	"name": "@ff0000-ad-tech/wp-resolve-plugin-index-variation",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
