@@ -1,11 +1,11 @@
 {
 	"name": "@ff0000-ad-tech/wp-resolve-plugin-index-variation",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
 		"test": "jest",
-    "pub": "np"
+		"pub": "np"
 	},
 	"keywords": [],
 	"author": "",
