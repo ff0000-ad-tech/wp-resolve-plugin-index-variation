@@ -39,6 +39,16 @@ describe('Project with multiple indices', () => {
 		'@index/file.js should match to cool_index/file.js',
 		coolResolveAndCheck('./__mocks__/@index/file.js', './__mocks__/cool_index/file.js')
 	)
+
+	it(
+		'only matches directory aliases that fully match @index',
+		coolResolveAndCheck('./__mocks__/not@index/file.js', './__mocks__/not@index/file.js')
+	)
+
+	it(
+		"doesn't match filenames with @index inside",
+		coolResolveAndCheck('./__mocks__/file@index.js', './__mocks__/file@index.js')
+	)
 })
 
 describe("When index folder doesn't exist", () => {
