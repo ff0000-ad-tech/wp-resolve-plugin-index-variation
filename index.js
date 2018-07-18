@@ -2,7 +2,7 @@ const debug = require('@ff0000-ad-tech/debug')
 const log = debug('index-variation-resolve-plugin')
 
 // regex to resolve @index with index folder name
-const indexRegExp = /(^|\/)(@index)\//
+const indexRegExp = /(^|\/)(@index)\b/
 
 class IndexVariationResolvePlugin {
 	constructor(indexName) {
@@ -19,7 +19,7 @@ class IndexVariationResolvePlugin {
 			function tryIndexAlias(aliasReplacement, lastReplacement = false) {
 				const newRequestStr = innerRequest.replace(
 					indexRegExp,
-					(_, possibleSlash) => `${possibleSlash}${aliasReplacement}/`
+					(_, possibleSlash) => `${possibleSlash}${aliasReplacement}`
 				)
 				const newRequestObj = Object.assign({}, request, {
 					request: newRequestStr
@@ -35,7 +35,7 @@ class IndexVariationResolvePlugin {
 
 						if (result === undefined) {
 							if (!lastReplacement) {
-								const topLevelRequestStr = innerRequest.replace(/@index\/?/, '')
+								const topLevelRequestStr = innerRequest.replace(indexRegExp, '')
 								log(`For ${innerRequest}:`)
 								log(`No index-specific folder at ${newRequestStr}`)
 								log(`Falling back on ${topLevelRequestStr}...`)
