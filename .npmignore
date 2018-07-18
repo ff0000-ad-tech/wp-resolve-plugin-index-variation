@@ -1,2 +1,5 @@
 .prettierrc
+.eslintrc
+__mocks__
+index.test.js
 .package-lock.json
