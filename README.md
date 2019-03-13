@@ -21,8 +21,14 @@ From `Ad.js`, if we wanted to import `bg.jpg` while allowing an override for `in
 ```js
 // Ad.js
 
-import './images/@index/bg.jpg
+import './images/@index/bg.jpg'
 ``` 
+
+If the previous import doesn't work and the RED `@size` alias is available, you can try pathing from the `@size` alias instead:
+
+```js
+import '@size/images/@index/bg.jpg'
+```
 
 @index resolves to a directory that is the index file name without the .html extension. In this, if compiling a build for `index-diff.html`, `@index` would resolve to `"index-diff"`.
 
